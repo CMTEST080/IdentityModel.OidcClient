@@ -213,7 +213,8 @@ namespace IdentityModel.OidcClient
 
                 userInfoClaims = userInfoResult.Claims;
 
-                var userInfoSub = userInfoClaims.FirstOrDefault(c => c.Type == JwtClaimTypes.Subject);
+                // Fitbit API用に修正
+                var userInfoSub = userInfoClaims.FirstOrDefault(c => c.Type == "user");
                 if (userInfoSub == null)
                 {
                     var error = "sub claim is missing from userinfo endpoint";
