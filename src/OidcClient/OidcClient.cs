@@ -213,14 +213,18 @@ namespace IdentityModel.OidcClient
 
                 userInfoClaims = userInfoResult.Claims;
 
-                // Fitbit API用に修正
-                var userInfoSub = userInfoClaims.FirstOrDefault(c => c.Type == "user");
+                var userInfoSub = userInfoClaims.FirstOrDefault(c => c.Type == JwtClaimTypes.Subject);
                 if (userInfoSub == null)
                 {
-                    var error = "sub claim is missing from userinfo endpoint";
-                    _logger.LogError(error);
+                    // Fitbit API用に修正
+                    // userInfoSub = userInfoClaims.FirstOrDefault(c => c.Type == "user");
+                    if (userInfoSub == null)
+                    {
+                        var error = "sub claim is missing from userinfo endpoint";
+                        _logger.LogError(error);
 
-                    return new LoginResult(error);
+                        return new LoginResult(error);
+                    }
                 }
 
                 if (result.TokenResponse.IdentityToken != null)
